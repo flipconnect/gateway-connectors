@@ -9,7 +9,7 @@ namespace Mundipagg.Connector {
 
     public sealed class CreditCard {
 
-        public CreditCard(string customerId, string authorization) {
+        public CreditCard(string customerId, string authorization) : base() {
             this.CustomerId = customerId;
             this.Authorization = authorization;
         }

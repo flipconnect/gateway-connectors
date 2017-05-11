@@ -5,7 +5,7 @@ namespace Mundipagg.Connector {
 
     public sealed class Customer {
 
-        public Customer(string authorization) {
+        public Customer(string authorization) : base() {
             this.Authorization = authorization;
         }
 

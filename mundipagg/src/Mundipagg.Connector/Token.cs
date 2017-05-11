@@ -17,9 +17,9 @@ namespace Mundipagg.Connector {
 
         private string Authorization { get; }
 
-        private const string MUNDIPAGG_COMMERCE_HOST_ADDRESS = "https://api.mundipagg.com/checkout/v1";
-
         private const string MUNDIPAGG_CORE_HOST_ADDRESS = "https://api.mundipagg.com/core/v1";
+
+        private const string MUNDIPAGG_COMMERCE_HOST_ADDRESS = "https://api.mundipagg.com/checkout/v1";
 
         public MundipaggResponse<string> CreateCheckoutToken(MundipaggPaymentData orderData, MundipaggAddressData addressData = null) {
 
