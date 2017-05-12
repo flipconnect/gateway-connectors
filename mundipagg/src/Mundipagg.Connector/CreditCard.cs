@@ -3,28 +3,33 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net;
 using Dlp.Framework;
+using Dlp.Framework.Container;
 using Mundipagg.Connector.Model;
 
 namespace Mundipagg.Connector {
 
-    public sealed class CreditCard {
+    public static class CreditCard {
 
-        public CreditCard(string customerId, string authorization) : base() {
-            this.CustomerId = customerId;
-            this.Authorization = authorization;
+        static CreditCard() {
+
+            IMundipaggSettings settings = IocFactory.Resolve<IMundipaggSettings>();
+            Authorization = settings.Authorization;
+            CustomerId = settings.CustomerId;
+
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         }
 
-        private string Authorization { get; }
+        private static string Authorization { get; }
 
-        private string CustomerId { get; }
+        private static string CustomerId { get; }
 
         private const string MUNDIPAGG_CORE_HOST_ADDRESS = "https://api.mundipagg.com/core/v1";
 
-        public MundipaggResponse<MundipaggCreditCardData> GetCreditCard(string creditCardKey) {
+        public static MundipaggResponse<MundipaggCreditCardData> Get(string creditCardKey) {
 
-            string creditCardEndpoint = $"{MUNDIPAGG_CORE_HOST_ADDRESS}/customers/{this.CustomerId}/cards/{creditCardKey}";
+            string creditCardEndpoint = $"{MUNDIPAGG_CORE_HOST_ADDRESS}/customers/{CustomerId}/cards/{creditCardKey}";
 
-            NameValueCollection header = new NameValueCollection { { "Authorization", this.Authorization } };
+            NameValueCollection header = new NameValueCollection { { "Authorization", Authorization } };
 
             WebResponse<string> result = RestClient.SendHttpWebRequest<string>(null, HttpVerb.Get, HttpContentType.Json, creditCardEndpoint, header, true);
 
@@ -45,11 +50,11 @@ namespace Mundipagg.Connector {
             return response;
         }
 
-        public MundipaggResponse<IEnumerable<MundipaggCreditCardData>> GetCreditCards() {
+        public static MundipaggResponse<IEnumerable<MundipaggCreditCardData>> GetAll() {
 
-            string creditCardEndpoint = $"{MUNDIPAGG_CORE_HOST_ADDRESS}/customers/{this.CustomerId}/cards";
+            string creditCardEndpoint = $"{MUNDIPAGG_CORE_HOST_ADDRESS}/customers/{CustomerId}/cards";
 
-            NameValueCollection header = new NameValueCollection { { "Authorization", this.Authorization } };
+            NameValueCollection header = new NameValueCollection { { "Authorization", Authorization } };
 
             WebResponse<string> result = RestClient.SendHttpWebRequest<string>(null, HttpVerb.Get, HttpContentType.Json, creditCardEndpoint, header, true);
 
@@ -65,11 +70,11 @@ namespace Mundipagg.Connector {
             return response;
         }
 
-        public MundipaggResponse<bool> DeleteCreditCard(string creditCardKey) {
+        public static MundipaggResponse<bool> Delete(string creditCardKey) {
 
-            string creditCardEndpoint = $"{MUNDIPAGG_CORE_HOST_ADDRESS}/customers/{this.CustomerId}/cards/{creditCardKey}";
+            string creditCardEndpoint = $"{MUNDIPAGG_CORE_HOST_ADDRESS}/customers/{CustomerId}/cards/{creditCardKey}";
 
-            NameValueCollection header = new NameValueCollection { { "Authorization", this.Authorization } };
+            NameValueCollection header = new NameValueCollection { { "Authorization", Authorization } };
 
             WebResponse<string> result = RestClient.SendHttpWebRequest<string>(null, HttpVerb.Delete, HttpContentType.Json, creditCardEndpoint, header, true);
 
@@ -92,11 +97,11 @@ namespace Mundipagg.Connector {
             return response;
         }
 
-        public MundipaggResponse<string> CreateCreditCard(MundipaggCreditCardData creditCardInfo) {
+        public static MundipaggResponse<string> Create(MundipaggCreditCardData creditCardInfo) {
 
-            string creditCardEndpoint = $"{MUNDIPAGG_CORE_HOST_ADDRESS}/customers/{this.CustomerId}/cards";
+            string creditCardEndpoint = $"{MUNDIPAGG_CORE_HOST_ADDRESS}/customers/{CustomerId}/cards";
 
-            NameValueCollection header = new NameValueCollection { { "Authorization", this.Authorization } };
+            NameValueCollection header = new NameValueCollection { { "Authorization", Authorization } };
 
             WebResponse<string> result = RestClient.SendHttpWebRequest<string>(creditCardInfo, HttpVerb.Post, HttpContentType.Json, creditCardEndpoint, header, true);
 

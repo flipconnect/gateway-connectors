@@ -49,11 +49,13 @@
   <ItemGroup>
     <Compile Include="CreditCard.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="IMundipaggSettings.cs" />
     <Compile Include="Model\MundipaggAddressData.cs" />
     <Compile Include="Model\MundipaggCreditCardData.cs" />
     <Compile Include="Model\MundipaggOrderData.cs" />
     <Compile Include="Model\MundipaggPaymentData.cs" />
     <Compile Include="MundipaggResponse.cs" />
+    <Compile Include="MundipaggSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Token.cs" />
   </ItemGroup>
